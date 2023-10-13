@@ -28,7 +28,6 @@
 .signup {
   width: 360px;
   height: 484px;
-  font-family: "Noto Sans", sans-serif;
   background: var(--Color_1, #fff);
   border-radius: 30px;
   display: block;
@@ -45,12 +44,26 @@
   display: grid;
   padding: 20px;
 }
+.signup .signup__block .signup__items .p {
+  color: #056CF2;
+}
+.signup .signup__block .signup__items .button {
+  border: none;
+  margin: 10px;
+  border-radius: 8px;
+  height: 43.75px;
+  font-family: Noto Sans;
+  font-size: 16px;
+  background: var(--Color_2, #056CF2);
+  color: var(--Color_3, #fff);
+  cursor: pointer;
+}
 .signup .signup__block .signup__items .input {
   border: none;
   margin: 10px;
   border-radius: 8px;
   height: 43.75px;
-  background: var(--Color_2, #F2F2F2);
+  background: var(--Color_4, #F2F2F2);
 }
 
 body {

@@ -13,19 +13,39 @@
   padding: 10px;
   margin: auto;
 }
+.signup .signup__block .button_null {
+  border: none;
+  font: inherit;
+  color: inherit;
+  background-color: transparent;
+  padding-right: 100%;
+  cursor: pointer;
+}
 .signup .signup__block .signup__items {
   display: grid;
-  padding: 20px;
+  padding: 10px;
+  height: 400px;
 }
-.signup .signup__block .signup__items span {
+.signup .signup__block .signup__items .text {
+  font-family: Noto Sans;
+  font-size: 40px;
   font-weight: 400;
-  font-family: "Noto Sans";
-  color: var(--Color_0, #000);
+}
+.signup .signup__block .signup__items .button {
+  border: none;
+  margin: 10px;
+  border-radius: 8px;
+  height: 43.75px;
+  font-family: Noto Sans;
+  font-size: 16px;
+  background: var(--Color_2, #056CF2);
+  color: var(--Color_3, #fff);
+  cursor: pointer;
 }
 .signup .signup__block .signup__items .input {
   border: none;
   margin: 10px;
   border-radius: 8px;
   height: 43.75px;
-  background: var(--Color_2, #F2F2F2);
+  background: var(--Color_4, #F2F2F2);
 }

@@ -2,6 +2,8 @@ import React, {useEffect} from "react";
 import {Link} from "react-router-dom";
 import Header from "../header/Header";
 
+import img from "../styles/img/back-button.svg"
+
 import "../styles/css/signup.css"
 
 function Signup(){
@@ -14,17 +16,17 @@ function Signup(){
     <body>
       <div className="signup">
         <div className="signup__block">
-         <span className="">Вход</span>
-          <div className="signup__items">
+          <button className="button_null"><img  src={img}/></button>
+           <div className="signup__items">
 
-            <input className="input" type="text" />
-            <input className="input" type="text" />
-            <button className="input">Продолжить</button>
+            <div  className="text">Вход</div>
+
+            <input className="input" type="text" placeholder="Логин" />
+            <input className="input" type="password" placeholder="Пароль" />
+            <button className="button" >Продолжить</button>
+            <div>
 
           </div>
-          <div>
-            <span >Забыли пароль?</span>
-            <p><span>Не учетной записи? <Link>Зарегистрируйтесь</Link></span></p>
           </div>
         </div>
       </div>

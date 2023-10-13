@@ -1,7 +1,7 @@
 .signup{
+  
 width: 360px;
 height: 484px;
-
 
 background: var(--Color_1, #fff);
 border-radius: 30px;
@@ -13,6 +13,7 @@ padding: 1%;
 
 box-shadow: 0px 0px 60px 5px rgba(94, 159, 242, 0.15);
 
+
 .signup__block{
 
     text-align: center; 
@@ -20,18 +21,36 @@ box-shadow: 0px 0px 60px 5px rgba(94, 159, 242, 0.15);
 
     margin: auto;
 
+    .button_null{
+        
+          border: none;
+          font: inherit;
+          color: inherit;
+          background-color: transparent;
+
+
+         padding-right: 100%;
+          
+          cursor: pointer;
+    }
+
+
   .signup__items{
 
     display: grid;
-    padding: 20px;
+    padding: 10px;
 
-    span{
-     font-weight: 400;
-     font-family: 'Noto Sans';
-     color:  var(--Color_0, #000);
-    }
     
-    .input{
+
+    height: 400px;
+
+        .text {
+            font-family: Noto Sans;
+            font-size: 40px;
+            font-weight: 400;
+          }
+
+    .button{
 
       border: none;
       margin: 10px;
@@ -40,7 +59,29 @@ box-shadow: 0px 0px 60px 5px rgba(94, 159, 242, 0.15);
 
       height: 43.75px;
        
-        background: var(--Color_2, #F2F2F2);
+      font-family: Noto Sans;
+      font-size: 16px;
+
+      background: var(--Color_2, #056CF2);  
+      color: var(--Color_3, #fff);
+      cursor: pointer;
+
+    }
+    
+    .input{
+
+
+
+      border: none;
+      margin: 10px;
+
+      border-radius: 8px;
+
+      height: 43.75px;
+       
+      background: var(--Color_4, #F2F2F2);
+
+      
 
     }
   }
