@@ -1,0 +1,61 @@
+.header {
+  background-color: white;
+  padding: 0.5%;
+}
+.header .header__content {
+  font-size: 16px;
+  font-family: Noto Sans;
+}
+.header .header__content .header__items {
+  display: flex;
+  -moz-column-gap: 30px;
+       column-gap: 30px;
+  align-items: center;
+  justify-content: space-between;
+}
+.header .header__content .button {
+  font-family: Noto Sans;
+  font-size: 16px;
+  color: var(--Color_1, #F2F2F2);
+  cursor: pointer;
+  border: none;
+  border-radius: 30px;
+  width: 150px;
+  height: 40px;
+  background: var(--Color_2, #056CF2);
+}
+
+.signup {
+  width: 360px;
+  height: 484px;
+  font-family: "Noto Sans", sans-serif;
+  background: var(--Color_1, #fff);
+  border-radius: 30px;
+  display: block;
+  margin: 10% auto;
+  padding: 1%;
+  box-shadow: 0px 0px 60px 5px rgba(94, 159, 242, 0.15);
+}
+.signup .signup__block {
+  text-align: center;
+  padding: 10px;
+  margin: auto;
+}
+.signup .signup__block .signup__items {
+  display: grid;
+  padding: 20px;
+}
+.signup .signup__block .signup__items .input {
+  border: none;
+  margin: 10px;
+  border-radius: 8px;
+  height: 43.75px;
+  background: var(--Color_2, #F2F2F2);
+}
+
+body {
+  font-family: "Noto Sans", sans-serif;
+  max-width: 1780px;
+  margin: 0 auto;
+  padding: 0 30px;
+}

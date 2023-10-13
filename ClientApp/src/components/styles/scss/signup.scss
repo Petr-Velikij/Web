@@ -1,0 +1,49 @@
+.signup{
+width: 360px;
+height: 484px;
+
+
+background: var(--Color_1, #fff);
+border-radius: 30px;
+
+display: block;
+margin: 10% auto;
+
+padding: 1%;
+
+box-shadow: 0px 0px 60px 5px rgba(94, 159, 242, 0.15);
+
+.signup__block{
+
+    text-align: center; 
+    padding: 10px;  
+
+    margin: auto;
+
+  .signup__items{
+
+    display: grid;
+    padding: 20px;
+
+    span{
+     font-weight: 400;
+     font-family: 'Noto Sans';
+     color:  var(--Color_0, #000);
+    }
+    
+    .input{
+
+      border: none;
+      margin: 10px;
+
+      border-radius: 8px;
+
+      height: 43.75px;
+       
+        background: var(--Color_2, #F2F2F2);
+
+    }
+  }
+}
+}
+

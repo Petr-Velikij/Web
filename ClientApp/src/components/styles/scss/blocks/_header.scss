@@ -1,0 +1,32 @@
+.header{
+  background-color: white;
+  padding: 0.5%;
+  .header__content{
+
+      font-size: 16px;
+      font-family: Noto Sans;
+    .header__items{
+      display: flex;
+      column-gap: 30px;
+      align-items: center;
+      justify-content: space-between;
+    }
+    
+    .button{
+      
+      font-family: Noto Sans;
+      font-size: 16px;
+
+      color: var(--Color_1, #F2F2F2);
+      cursor: pointer;
+
+      border: none;
+      border-radius: 30px;
+
+      width: 150px;
+      height: 40px;
+      background: var(--Color_2, #056CF2);
+
+    }
+  }
+}
