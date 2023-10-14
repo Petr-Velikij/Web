@@ -2,11 +2,12 @@
 import ReactDOM from 'react-dom'
 
 import Main from './Main';
-import Signup from './components/pages/Signup';
+import Login from './components/pages/Login';
+import Register from './components/pages/Register';
 
 import './components/styles/css/reset.css'
 import './components/styles/css/main.css'
-import './components/styles/css/signup.css'
+import './components/styles/css/login.css'
 
 
 import {
@@ -22,9 +23,14 @@ const router = createBrowserRouter([
     element: <Main></Main>,
   },
     {
-    path: "signup",
-    element: <Signup></Signup>,
+    path: "login",
+    element: <Login></Login>,
   },
+      {
+    path: "register",
+    element: <Register></Register>,
+  },
+  
   
 ]);
 

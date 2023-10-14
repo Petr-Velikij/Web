@@ -13,7 +13,7 @@ function Header(){
               <div>Lorem</div>
               <div>Lorem</div>
               <div>
-              <Link to="/signup"><button className="button">Войти</button></Link>
+              <Link to="login"><button className="button">Войти</button></Link>
               </div>
             </div>
           </div>

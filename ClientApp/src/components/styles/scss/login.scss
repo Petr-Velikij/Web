@@ -71,6 +71,7 @@
             height: 43px;
 
             background: var(--Color_2, #056CF2);
+
           }
         input{
 
@@ -82,6 +83,13 @@
           height: 43px;
 
           background: #F2F2F2;
+
+          font-weight:300;
+          font-family: 'Noto Sans';
+          font-size: 16px;
+          
+          padding-left: 10px;
+          color: black;
             
         }
       }

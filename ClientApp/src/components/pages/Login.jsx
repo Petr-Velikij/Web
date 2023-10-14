@@ -4,9 +4,9 @@ import Header from "../header/Header";
 
 import img_back_button from "../styles/img/back-button.svg"
 
-import "../styles/css/signup.css"
+import "../styles/css/login.css"
 
-function Signup(){
+function Login(){
   
   
     const color = "#E8E7E7"
@@ -24,7 +24,7 @@ function Signup(){
             <input type="text" placeholder="Логин"></input>
           </div>
            <div className="form-item">
-            <input type="text" placeholder="Логин"></input>
+            <input type="password" placeholder="Пароль"></input>
           </div>
           <div className="form-item">
             <button className="button-next">Продолжить</button>
@@ -33,11 +33,11 @@ function Signup(){
           </div>
         <div className="content__text">
           <Link className="text">Забыли пароль?</Link>
-          <div className="text" >Не учетной записи? <Link className="text">Зарегистрируйтесь</Link></div>
+          <div className="text" >Не учетной записи? <Link to ="/register" className="text">Зарегистрируйтесь</Link></div>
         </div>
       </div>
     </body>
     )
   
 }
-export default Signup;
+export default Login;
