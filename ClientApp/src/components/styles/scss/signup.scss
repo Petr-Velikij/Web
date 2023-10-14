@@ -1,90 +1,112 @@
-.signup{
-  
-width: 360px;
-height: 484px;
+.login{
 
-background: var(--Color_1, #fff);
-border-radius: 30px;
+  max-width: 1780px;
+  margin: 0 auto;
+  padding: 0 30px;
 
-display: block;
-margin: 10% auto;
+  box-sizing: border-box;
 
-padding: 1%;
+  font-family: 'Noto Sans';
 
-box-shadow: 0px 0px 60px 5px rgba(94, 159, 242, 0.15);
+  .login-container__content{
+
+    border-radius: 36px;
+    background: #FFF;
+    box-shadow: 0px 0px 60px 5px rgba(94, 159, 242, 0.15);
+    
+    max-width: 360px;
+    min-height: 480px;
 
 
-.signup__block{
+    margin-left: auto;
+    margin-right: auto;
 
-    text-align: center; 
-    padding: 10px;  
+    margin-top: 10%;
+    padding: 20px;
 
-    margin: auto;
+    .content__button-back{
+      .button-back{
+        padding: 0;
+        border: none;
+        font: inherit;
+        color: inherit;
+        background-color: transparent;
+                
+        cursor: pointer;
+     }
+    }
+    .content__title{
 
-    .button_null{
+      font-size: 40px;
+      font-weight: 700;
+
+
+      margin: 20px auto;
+      text-align: center;
+
+    }
+    .content__form-item{
+
+            display: flex;
+              width: 319px;
+              height: 194px;
+              flex-direction: column;
+              justify-content: center;
+              align-items: center;
+              gap: 10px;
+
+      .form-item{
+        .button-next {
         
-          border: none;
-          font: inherit;
-          color: inherit;
-          background-color: transparent;
-
-
-         padding-right: 100%;
-          
-          cursor: pointer;
-    }
-
-
-  .signup__items{
-
-    display: grid;
-    padding: 10px;
-
-    
-
-    height: 400px;
-
-        .text {
             font-family: Noto Sans;
-            font-size: 40px;
-            font-weight: 400;
+            font-size: 16px;
+        
+            color: var(--Color_1, #F2F2F2);
+            cursor: pointer;
+        
+            border: none;
+            border-radius: 8px;
+        
+            width: 282px;
+            height: 43px;
+
+            background: var(--Color_2, #056CF2);
           }
+        input{
 
-    .button{
+          border: none;
+          outline: none;
+          border-radius: 8px;
+         
+          width: 282px;
+          height: 43px;
 
-      border: none;
-      margin: 10px;
-
-      border-radius: 8px;
-
-      height: 43.75px;
-       
-      font-family: Noto Sans;
-      font-size: 16px;
-
-      background: var(--Color_2, #056CF2);  
-      color: var(--Color_3, #fff);
-      cursor: pointer;
-
+          background: #F2F2F2;
+            
+        }
+      }
     }
-    
-    .input{
+    .content__text{
 
+      div.text{
 
+        color: black;
+      }
+      .text{
 
-      border: none;
-      margin: 10px;
+ 
+        font-size: 16px;
+        font-weight: 300;
+        
+        text-decoration: none;
 
-      border-radius: 8px;
-
-      height: 43.75px;
-       
-      background: var(--Color_4, #F2F2F2);
-
+        margin-top: 10px;
+        
+        color: #056CF2;
+      }
       
-
+      text-align: center;
+      margin: 10px auto;
     }
   }
 }
-}
-

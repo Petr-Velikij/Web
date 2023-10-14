@@ -14,10 +14,12 @@
     
     .button{
       
-      font-family: Noto Sans;
+      font-family: 'Noto Sans';
       font-size: 16px;
 
-      color: var(--Color_1, #F2F2F2);
+      font-weight: 400;
+
+      color:#F2F2F2;
       cursor: pointer;
 
       border: none;
@@ -25,7 +27,7 @@
 
       width: 150px;
       height: 40px;
-      background: var(--Color_2, #056CF2);
+      background:#056CF2;
 
     }
   }
