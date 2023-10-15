@@ -16,12 +16,11 @@ function Register() {
 
   const SaveData = () => {
     const userData = {
-      Email: email,
-      Password: password,
+      Email: "petr@gmail.com",
     }
 
-    const urlServer = 'https://jsonplaceholder.typicode.com/posts'
-    axios.post(urlServer, userData).then(result => {
+      const urlServer = '/Test/Register'
+    axios.post(urlServer, null).then(result => {
       console.log(result.data)
 
     })
@@ -36,7 +35,14 @@ function Register() {
   })
 
   return (
-    <body className='register'>
+      <body className='register'>
+          <form method="post" action="~/Home/Area">
+              <label>Высота:</label><br />
+              <input type="number" name="height" /><br />
+              <label>Основание:</label><br />
+              <input type="number" name="altitude" /><br />
+              <input type="submit" value="Отправить" />
+          </form>
       <div className='register-container__content'>
         <div className='content__button-back'>
           <Link to='/'>
@@ -51,19 +57,14 @@ function Register() {
             <input
               type='email'
               placeholder='Почта'
-              onChange={Event => {
-                setEmail(Event.target.value)
-                console.log(email)
-              }}
+          
             ></input>
           </div>
           <div className='form-item'>
             <input
               type='password'
               placeholder='Пароль'
-              onChange={Event => {
-                setPassword(Event.target.value)
-              }}
+             
             ></input>
           </div>
           <div className='form-item'>
