@@ -13,6 +13,7 @@ namespace WebTutorCore
 
             var services = builder.Services;
             services.AddControllers();
+            services.AddSignalR();
 
             var app = builder.Build();
             if (!app.Environment.IsDevelopment()) app.UseHsts();
@@ -21,10 +22,8 @@ namespace WebTutorCore
             app.UseRouting();
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapGet("/", async context =>
-                {
-                    await context.Response.WriteAsync("Hello World!");
-                });
+                endpoints.MapHub<MessageHub>("/message");
+                endpoints.MapControllers();
             });
             app.UseStatusCodePages();
             app.MapControllerRoute(
