@@ -63,6 +63,12 @@
   padding-left: 10px;
   color: black;
 }
+.register .register-container__content .content__form-item .form-item p {
+  font-weight: 300;
+  color: red;
+  font-size: 12px;
+  margin: 5px auto;
+}
 .register .register-container__content .content__text {
   text-align: center;
   margin: 30px auto;
