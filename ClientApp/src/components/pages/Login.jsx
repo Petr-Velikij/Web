@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
-import Header from "../header/Header";
 
 import img_back_button from "../styles/img/back-button.svg";
 

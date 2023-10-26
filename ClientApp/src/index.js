@@ -4,6 +4,7 @@ import ReactDOM from "react-dom";
 import Main from "./Main";
 import Login from "./components/pages/Login";
 import Register from "./components/pages/Register";
+import Account from "./components/pages/Account";
 
 import "./components/styles/css/reset.css";
 import "./components/styles/css/main.css";
@@ -23,6 +24,10 @@ const router = createBrowserRouter([
 	{
 		path: "register",
 		element: <Register></Register>,
+	},
+	{
+		path: "account",
+		element: <Account></Account>,
 	},
 ]);
 

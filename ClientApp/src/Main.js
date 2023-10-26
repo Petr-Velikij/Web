@@ -1,6 +1,5 @@
+import { HeaderMain } from "./components/header/Headers";
 import "./components/styles/css/main.css";
-
-import Header from "./components/header/Header";
 
 import React, { useEffect } from "react";
 
@@ -12,7 +11,7 @@ function Main() {
 	});
 	return (
 		<div className="Main">
-			<Header></Header>
+			<HeaderMain></HeaderMain>
 		</div>
 	);
 }
