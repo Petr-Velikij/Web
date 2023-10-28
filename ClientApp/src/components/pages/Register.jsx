@@ -1,21 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { useForm } from "react-hook-form";
 import axios from "axios";
-import { useForm, SubmitHandler, set } from "react-hook-form";
-
-import img_back_button from "../styles/img/back-button.svg";
-
-import "../styles/css/register.css";
-import { event } from "jquery";
 
 function Register() {
 	const [email, setEmail] = useState();
 	const [password, setPassword] = useState();
-
-	const color = "#E8E7E7";
-	useEffect(() => {
-		document.body.style.backgroundColor = color;
-	});
 
 	const {
 		register,
@@ -39,13 +29,11 @@ function Register() {
 			});
 	};
 	return (
-		<body className="register">
-			<div className="register-container__content">
+		<body className="login">
+			<div className="login-container__content">
 				<div className="content__button-back">
 					<Link to="/">
-						<button className="button-back">
-							<img src={img_back_button} alt="Oops" />
-						</button>
+						<button className="button-back"></button>
 					</Link>
 				</div>
 				<div className="content__title">Регистрация</div>
@@ -85,7 +73,9 @@ function Register() {
 						{errors?.Password?.type === "minLength" && <p>Мин 6 символов</p>}
 					</div>
 					<div className="form-item">
-						<input type="submit" className="button-next" />
+						<button type="submit" className="button-next">
+							Продолжить
+						</button>
 					</div>
 				</form>
 				<div className="content__text">

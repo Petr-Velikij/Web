@@ -1,0 +1,26 @@
+//Конструктор кнопки
+@mixin button-create($padding, $font-size, $font-weight, $color, $background-color, $border-radius, $background-image) {
+  padding: $padding;
+  font-size: $font-size;
+  font-weight: $font-weight;
+  color: $color;
+  background-color: $background-color;
+  border-radius: $border-radius;
+  background-image: $background-image;
+}
+//Шаблон кнопки самый основной
+%button-standard {
+  background-size: cover;
+
+  @include button-create(0, 16px, 400, black, transparent, null, null);
+
+  cursor: pointer;
+}
+//Все кнопки на сайте (можно добавить кнопку использовав конструктор, или создать новый шаблон и добавить через класс)
+button {
+  @extend %button-standard;
+}
+
+.button-enter {
+  @include button-create(10px 40px, 16px, 400, #fff, #056cf2, 30px, null);
+}

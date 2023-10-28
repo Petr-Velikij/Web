@@ -6,9 +6,7 @@ import Login from "./components/pages/Login";
 import Register from "./components/pages/Register";
 import Account from "./components/pages/Account";
 
-import "./components/styles/css/reset.css";
-import "./components/styles/css/main.css";
-import "./components/styles/css/login.css";
+import "./components/styles/css/global.css";
 
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 

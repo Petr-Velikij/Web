@@ -1,0 +1,9 @@
+@import 'reset.scss';
+@import './blocks/header.scss';
+@import 'authentication.scss';
+@import './elements/buttons.scss';
+
+body {
+  background-color: #f2f2f2;
+  max-width: 1780px;
+}
