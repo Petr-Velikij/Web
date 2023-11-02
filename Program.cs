@@ -1,13 +1,10 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authentication.OAuth;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using WebTutor.Data;
-using WebTutor.Services;
-using WebTutor.Services.Intrerfaces;
 
 namespace WebTutor
 {
@@ -19,8 +16,8 @@ namespace WebTutor
         {
             var builder = WebApplication.CreateBuilder(args);
             builder.Services.AddControllersWithViews();
-            builder.Services.AddTransient<IPostServices, PersonServices>();
             builder.Services.AddDbContext<PersonContext>(bd => bd.UseNpgsql(builder.Configuration.GetConnectionString("connection")));
+            builder.Services.AddDbContext<LessonContext>(bd => bd.UseNpgsql(builder.Configuration.GetConnectionString("connection")));
             builder.Services.AddCors(options =>
             {
                 options.AddPolicy(name: MyAllowSpecificOrigins,
@@ -31,10 +28,6 @@ namespace WebTutor
                                       .AllowAnyMethod();
                                   });
             });
-            builder.Services.AddCors(options => options.AddPolicy("Test", builder =>
-            { 
-                builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader(); 
-            }));
             builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
             {
                 options.TokenValidationParameters = new TokenValidationParameters

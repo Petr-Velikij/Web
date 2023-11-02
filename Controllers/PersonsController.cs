@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+using WebTutor.Data;
 using WebTutor.Medels;
-using WebTutor.Services.Intrerfaces;
 
 namespace WebTutor.Controllers
 {
@@ -10,41 +10,59 @@ namespace WebTutor.Controllers
     [EnableCors("Test")]
     public class PersonsController : ControllerBase
     {
-        private readonly IPostServices postServices;
+        private readonly PersonContext db;
 
-        public PersonsController(IPostServices postServices)
+        public PersonsController(PersonContext db)
         {
-            this.postServices = postServices;
+            this.db = db;
         }
-        //[HttpPost]
-        public Authorization Create(Authorization Authorization)
+
+        [HttpPost]
+        public Authorization Create(Authorization aut)
         {
             Console.WriteLine("HttpPost");
-            return postServices.Create(Authorization);
+            Authorization? person = db.Authorization.FirstOrDefault(x => x.Email == aut.Email);
+            if (person == null)
+            {
+                db.Authorization.Add(aut);
+                db.SaveChanges();
+                return db.Authorization.ToList().Last();
+            }
+            return new Authorization();
         }
         [HttpPatch]
         public Authorization Update(Authorization Authorization)
         {
             Console.WriteLine("HttpPatch");
-            return postServices.Update(Authorization);
+            Authorization? person = db.Authorization.FirstOrDefault(x => x.Id == Authorization.Id);
+            if (person == null) return new Authorization();
+            person.Email = Authorization.Email;
+            person.Password = Authorization.Password;
+            db.SaveChanges();
+            return db.Authorization.First(x => x.Id == Authorization.Id);
         }
         [HttpGet("{id}")]
         public Authorization Get(int id)
         {
             Console.WriteLine("HttpGet");
-            return postServices.Get(id);
+            Authorization? person = db.Authorization.FirstOrDefault(x => x.Id == id);
+            return person;
         }
-        [HttpPost]
+        [HttpPut]
         public bool Check(Authorization aut)
         {
             Console.WriteLine("HttpCheck");
-            return postServices.Check(aut);
+            Authorization? person = db.Authorization.FirstOrDefault(x => (x.Email == aut.Email && x.Password == aut.Password));
+            if (person == null) return false;
+            return true;
         }
         [HttpDelete]
         public IActionResult Delete(int id)
         {
             Console.WriteLine("HttpDelete");
-            postServices.Delete(id);
+            Authorization _person = db.Authorization.First(x => x.Id == id);
+            db.Authorization.Remove(_person);
+            db.SaveChanges();
             return Ok();
         }
     }
