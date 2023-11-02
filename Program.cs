@@ -1,4 +1,10 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authentication.OAuth;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 using WebTutor.Data;
 using WebTutor.Services;
 using WebTutor.Services.Intrerfaces;
@@ -15,7 +21,6 @@ namespace WebTutor
             builder.Services.AddControllersWithViews();
             builder.Services.AddTransient<IPostServices, PersonServices>();
             builder.Services.AddDbContext<PersonContext>(bd => bd.UseNpgsql(builder.Configuration.GetConnectionString("connection")));
-            //builder.Services.AddSingleton<PersonContext>();
             builder.Services.AddCors(options =>
             {
                 options.AddPolicy(name: MyAllowSpecificOrigins,
@@ -27,7 +32,31 @@ namespace WebTutor
                                   });
             });
             builder.Services.AddCors(options => options.AddPolicy("Test", builder =>
-            { builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader(); }));
+            { 
+                builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader(); 
+            }));
+            builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    // указывает, будет ли валидироваться издатель при валидации токена
+                    ValidateIssuer = true,
+                    // строка, представляющая издателя
+                    ValidIssuer = AuthOptions.ISSUER,
+                    // будет ли валидироваться потребитель токена
+                    ValidateAudience = true,
+                    // установка потребителя токена
+                    ValidAudience = AuthOptions.AUDIENCE,
+                    // будет ли валидироваться время существования
+                    ValidateLifetime = true,
+                    // установка ключа безопасности
+                    IssuerSigningKey = AuthOptions.GetSymmetricSecurityKey(),
+                    // валидация ключа безопасности
+                    ValidateIssuerSigningKey = true,
+                };
+            });
+            builder.Services.AddAuthorization();
+
             var app = builder.Build();
 
             if (!app.Environment.IsDevelopment())
@@ -35,6 +64,7 @@ namespace WebTutor
                 app.UseHsts();
             }
             app.UseHttpsRedirection();
+            app.UseDefaultFiles();
             app.UseStaticFiles();
             app.UseRouting();
             app.UseCors(MyAllowSpecificOrigins);
@@ -42,10 +72,33 @@ namespace WebTutor
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller}/{action=Index}/{id?}");
+            app.Map("/login/{username}", (string username) =>
+            {
+                var claims = new List<Claim> { new Claim(ClaimTypes.Name, username) };
+                var jwt = new JwtSecurityToken(
+                        issuer: AuthOptions.ISSUER,
+                        audience: AuthOptions.AUDIENCE,
+                claims: claims,
+                expires: DateTime.UtcNow.Add(TimeSpan.FromMinutes(2)),
+                        signingCredentials: new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256));
+
+                return new JwtSecurityTokenHandler().WriteToken(jwt);
+            });
 
             app.MapFallbackToFile("index.html");
 
+            app.UseAuthentication();
+            app.UseAuthorization();
+
             app.Run();
         }
+    }
+    public class AuthOptions
+    {
+        public const string ISSUER = "MyAuthServer"; // издатель токена
+        public const string AUDIENCE = "MyAuthClient"; // потребитель токена
+        const string KEY = "b92%[bZ/bc%74JxKH-{e";   // ключ для шифрации
+        public static SymmetricSecurityKey GetSymmetricSecurityKey() =>
+            new SymmetricSecurityKey(Encoding.UTF8.GetBytes(KEY));
     }
 }

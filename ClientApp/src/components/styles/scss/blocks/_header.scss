@@ -1,34 +1,24 @@
-.header{
+%header-item {
+  justify-content: right;
+  align-items: center;
+}
+.header {
   background-color: white;
-  padding: 0.5%;
-  .header__content{
 
-      font-size: 16px;
-      font-family: Noto Sans;
-    .header__items{
-      display: flex;
-      column-gap: 30px;
-      align-items: center;
-      justify-content: space-between;
+  padding: 0px 80px;
+
+  .header__content {
+    display: flex;
+
+    @extend %header-item;
+    &.header-account {
+      justify-content: space-around;
     }
-    
-    .button{
-      
-      font-family: 'Noto Sans';
-      font-size: 16px;
 
-      font-weight: 400;
+    min-height: 60px;
 
-      color:#F2F2F2;
-      cursor: pointer;
-
-      border: none;
-      border-radius: 30px;
-
-      width: 150px;
-      height: 40px;
-      background:#056CF2;
-
+    .content {
+      margin: 10px;
     }
   }
 }
