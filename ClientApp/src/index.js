@@ -5,6 +5,7 @@ import Main from "./Main";
 import Login from "./components/pages/Login";
 import Register from "./components/pages/Register";
 import Account from "./components/pages/Account";
+import Task from "./components/pages/Task";
 
 import "./components/styles/css/global.css";
 
@@ -26,6 +27,10 @@ const router = createBrowserRouter([
 	{
 		path: "account",
 		element: <Account></Account>,
+	},
+	{
+		path: "task",
+		element: <Task></Task>,
 	},
 ]);
 

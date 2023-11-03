@@ -2,8 +2,10 @@
 @import './blocks/header.scss';
 @import 'authentication.scss';
 @import './elements/buttons.scss';
-
+@import './menu-burger.scss';
+@import './blocks/task-form.scss';
 body {
   background-color: #f2f2f2;
-  max-width: 1780px;
+  width: 100%;
+  height: 100vh;
 }

@@ -1,24 +1,26 @@
-%header-item {
-  justify-content: right;
-  align-items: center;
+@mixin header-create($justify-content, $align-items) {
+  justify-content: $justify-content;
+  align-items: $align-items;
 }
+
 .header {
   background-color: white;
 
-  padding: 0px 80px;
-
   .header__content {
-    display: flex;
+    display: grid;
+    padding: 16px 60px;
 
-    @extend %header-item;
-    &.header-account {
-      justify-content: space-around;
+    @include header-create(right, center);
+
+    &.-header-account {
+      @include header-create(center, center);
+      .content__list-item {
+        display: flex;
+        flex-direction: row;
+        gap: 25px;
+      }
     }
 
     min-height: 60px;
-
-    .content {
-      margin: 10px;
-    }
   }
 }
