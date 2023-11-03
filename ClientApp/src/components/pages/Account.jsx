@@ -1,12 +1,8 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { HeaderAccount } from "../header/Headers";
 
 function Account() {
-	return (
-		<HeaderAccount>
-			<div>Hello</div>
-		</HeaderAccount>
-	);
+	return <HeaderAccount></HeaderAccount>;
 }
 
 export default Account;

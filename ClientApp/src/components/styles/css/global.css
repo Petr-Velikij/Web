@@ -6,6 +6,7 @@
 
 html,
 button,
+textarea,
 input,
 body,
 div,
@@ -109,29 +110,89 @@ input {
   border-radius: 0;
 }
 
-.header .header__content {
-  justify-content: right;
-  align-items: center;
-}
-
 .header {
   background-color: white;
-  padding: 0px 80px;
+  position: sticky;
 }
 .header .header__content {
-  display: flex;
+  display: grid;
+  padding: 16px 60px;
+  justify-content: right;
+  align-items: center;
   min-height: 60px;
 }
-.header .header__content.header-account {
-  justify-content: space-around;
+.header .header__content.-header-account {
+  justify-content: center;
+  align-items: center;
 }
-.header .header__content .content {
-  margin: 10px;
+.header .header__content.-header-account .content__list-item {
+  display: flex;
+  flex-direction: row;
+  gap: 25px;
 }
 
-button {
+.authentication {
+  margin-top: 10%;
+  padding: 30px;
+  width: 430px;
+  min-height: 544px;
+  box-shadow: 0px 0px 60px 5px rgba(94, 159, 242, 0.15);
+  background-color: white;
+  border-radius: 36px;
+}
+.authentication .authentication-container__content {
+  text-align: center;
+}
+.authentication .authentication-container__content .content__button-back {
+  text-align: left;
+}
+.authentication .authentication-container__content .content__title {
+  margin: 40px;
+  font-size: 40px;
+  font-weight: 700;
+}
+.authentication .authentication-container__content .content__text {
+  margin: 30px auto;
+  font-weight: 300;
+}
+.authentication .authentication-container__content .content__text .link {
+  text-decoration: none;
+  color: #056cf2;
+}
+.authentication .authentication-container__content .content__form-item {
+  display: flex;
+  gap: 10px;
+  margin: 20px;
+  flex-direction: column;
+}
+.authentication .authentication-container__content .content__form-item .form-item .input-authentication {
+  border: none;
+  outline: none;
+  border-radius: 8px;
+  width: 315px;
+  height: 43px;
+  background: #f2f2f2;
+  font-weight: 400;
+  padding: 0 10px;
+  color: black;
+}
+.authentication .authentication-container__content .content__form-item .form-item .input-authentication:focus {
+  border: 1px solid #5e9ff2;
+  font-weight: 400;
+}
+.authentication .authentication-container__content .content__form-item .form-item .p-authentication {
+  text-align: left;
+  margin: 5px 10px;
+  font-weight: 300;
+  color: #f20521;
+}
+
+button,
+a {
   background-size: cover;
-  padding: 0;
+  text-decoration: none;
+  width: auto;
+  height: auto;
   font-size: 16px;
   font-weight: 400;
   color: black;
@@ -140,15 +201,152 @@ button {
 }
 
 .button-enter {
-  padding: 10px 40px;
+  width: 150px;
+  height: 40px;
   font-size: 16px;
-  font-weight: 400;
+  font-weight: 700;
   color: #fff;
   background-color: #056cf2;
   border-radius: 30px;
 }
 
+.button-back {
+  width: 32px;
+  height: 32px;
+  background-image: url("/src/components/styles/img/back-button.svg");
+}
+
+.button-next {
+  width: 315px;
+  height: 43px;
+  font-size: 16px;
+  font-weight: 700;
+  color: #fff;
+  background-color: #056cf2;
+  border-radius: 8px;
+}
+
+.button-list {
+  width: auto;
+  height: auto;
+  font-size: 16px;
+  font-weight: 400;
+  color: black;
+  padding: 10px;
+}
+
+.button-list:hover {
+  width: auto;
+  height: auto;
+  font-size: 16px;
+  font-weight: 400;
+  color: #fff;
+  background-color: #056cf2;
+  border-radius: 5px;
+}
+
+.button-burger {
+  width: 315px;
+  height: 43px;
+  font-size: 16px;
+  font-weight: 700;
+  color: #fff;
+  background-color: #056cf2;
+  border-radius: 8px;
+}
+
+.button-lesson {
+  width: 150px;
+  height: 42px;
+  font-size: 16px;
+  font-weight: 700;
+  color: #fff;
+  background-color: #056cf2;
+  border-radius: 30px;
+}
+
+.button-post {
+  width: 150px;
+  height: 40px;
+  font-size: 16px;
+  font-weight: 700;
+  color: #fff;
+  background-color: #056cf2;
+  border-radius: 30px;
+  margin: 10px;
+}
+
+.add-task__container {
+  margin: 5% auto;
+  padding: 30px;
+  background-color: white;
+  box-shadow: 0px 0px 60px 5px rgba(94, 159, 242, 0.15);
+  border-radius: 30px;
+}
+.add-task__container .container__content {
+  width: 830px;
+}
+.add-task__container .container__content .content__select-item {
+  justify-content: center;
+  align-items: center;
+}
+.add-task__container .container__content .content__main-form {
+  background-color: #f2f2f2;
+  border-radius: 26px;
+  margin-top: 28px;
+  padding: 24px;
+}
+.add-task__container .container__content .content__main-form .main-form {
+  background-color: white;
+  border-radius: 18px;
+}
+.add-task__container .container__content .content__main-form .main-form .main-form__group-button {
+  display: flex;
+  padding: 10px;
+  gap: 10px;
+  grid-auto-columns: 200px;
+  justify-content: start;
+}
+.add-task__container .container__content .content__main-form .main-form .main-form__group-button .li-form {
+  display: flex;
+  gap: 3px;
+  list-style-type: none;
+}
+.add-task__container .container__content .content__main-form .main-form__input-post {
+  margin: 10px;
+}
+.add-task__container .container__content .content__main-form .main-form__input-post .input-post {
+  width: 100%;
+  height: 30vh;
+  padding: 10px 0;
+  font-weight: 300;
+  resize: none;
+}
+.add-task__container .container__content .content__main-form .main-form__input-post .input-post:focus {
+  outline: none;
+}
+
+.lesson__block-text {
+  width: 835px;
+  min-height: 148px;
+  margin: 20px 20px;
+  border-radius: 30px;
+  background: #d9d9d9;
+}
+.lesson__block-text .block-text {
+  padding: 20px;
+}
+
 body {
   background-color: #f2f2f2;
-  max-width: 1780px;
+  width: 100%;
+  height: 100vh;
+}
+
+.all-content {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  margin: auto 10%;
+  padding: 0 1%;
 }
