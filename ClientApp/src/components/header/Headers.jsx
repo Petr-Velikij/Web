@@ -1,6 +1,5 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
-import Menu from "../burger/Menu";
 
 export function HeaderMain() {
 	return (
@@ -16,8 +15,6 @@ export function HeaderMain() {
 	);
 }
 export function HeaderAccount() {
-	const [burgerActive, setBurgerActive] = useState(false);
-
 	return (
 		<header className="header">
 			<div className="header__content -header-account">
@@ -33,7 +30,7 @@ export function HeaderAccount() {
 						</Link>
 					</li>
 					<li className="list-item">
-						<Link to="/add" className="button-list">
+						<Link to="/task" className="button-list">
 							Добавить занятие
 						</Link>
 					</li>

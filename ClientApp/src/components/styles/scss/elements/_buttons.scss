@@ -61,6 +61,6 @@ a {
   @include button-create(150px, 42px, 16px, 700, #fff, #056cf2, 30px, null);
 }
 .button-post {
-  @include button-create(150px, 42px, 16px, 400, #fff, #056cf2, 12px, null);
-  margin: 10px 0;
+  @include button-create(150px, 40px, 16px, 700, #fff, #056cf2, 30px, null);
+  margin: 10px;
 }

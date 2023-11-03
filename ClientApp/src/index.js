@@ -1,5 +1,5 @@
 ﻿import React from "react";
-import ReactDOM from "react-dom";
+import ReactDOM from "react-dom/client";
 
 import Main from "./Main";
 import Login from "./components/pages/Login";

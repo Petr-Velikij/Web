@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, Fragment } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import axios from "axios";
@@ -13,7 +13,7 @@ function Login() {
 		formState: { errors },
 	} = useForm();
 
-	const onSubmit = async (Event) => {
+	const onSubmit = async () => {
 		const urlServer = "https://25.81.29.249:7045/api/persons";
 
 		await axios
@@ -31,7 +31,7 @@ function Login() {
 			});
 	};
 	return (
-		<body>
+		<Fragment>
 			<div className="all-content">
 				<div className="authentication">
 					<div className="authentication-container__content">
@@ -103,7 +103,7 @@ function Login() {
 					</div>
 				</div>
 			</div>
-		</body>
+		</Fragment>
 	);
 }
 export default Login;

@@ -1,40 +1,57 @@
+import React, { useState } from "react";
+import { useForm } from "react-hook-form";
+
+import axios from "axios";
+
 function FormTask() {
+	const [textTask, setTextTask] = useState("");
+	const {
+		register,
+		handleSubmit,
+		formState: { errors },
+	} = useForm();
+
+	const urlServer = "https://25.81.29.249:7045/api/lesson";
+
+	const addTask = async () => {
+		await axios
+			.post(urlServer, {
+				Task: textTask,
+			})
+			.then((DataText) => {
+				console.log(DataText.data);
+			})
+			.catch(() => {
+				console.log("Ошибка отправки");
+			});
+	};
+
 	return (
 		<div className="add-task__container">
-			<div className="container__content">
-				<div className="content__select-item">
-					<select className="select-item">Выбор времени/места</select>
-					<select className="select-item">Выбор группы</select>
-				</div>
+			<form onSubmit={handleSubmit(addTask)} className="container__content">
+				<div className="content__select-item"> {/* Вернуть select (взять из GIT) */}</div>
 				<div className="content__main-form">
 					<div className="main-form">
-						<ul className="main-form__group-button">
-							<li className="li-form">
-								<button>sgh</button>
-								<button>s1123</button>
-								<button>aas</button>
-							</li>
-							<li className="li-form">
-								<button>s</button>
-								<button>asd</button>
-								<button>asda</button>
-							</li>
-							<li className="li-form">
-								<button>asdas</button>
-								<button>asdasd</button>
-								<button>asd</button>
-							</li>
-						</ul>
 						<div className="main-form__input-post">
-							<textarea className="input-post" placeholder="Напишите что-нибудь"></textarea>
-
+							<textarea
+								className="input-post"
+								placeholder="Напишите что-нибудь"
+								value={textTask}
+								{...register("TextTask", {
+									required: true,
+								})}
+								onChange={(Event) => {
+									setTextTask(Event.target.value);
+									console.log(textTask);
+								}}></textarea>
+							{errors?.TextTask?.type === "required"}
 							<button type="submit" className="button-post">
 								отправить
 							</button>
 						</div>
 					</div>
 				</div>
-			</div>
+			</form>
 		</div>
 	);
 }
