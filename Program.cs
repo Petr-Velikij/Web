@@ -17,6 +17,7 @@ namespace WebTutor
             builder.Services.AddControllersWithViews();
             builder.Services.AddDbContext<PersonContext>(bd => bd.UseNpgsql(builder.Configuration.GetConnectionString("connection")));
             builder.Services.AddDbContext<LessonContext>(bd => bd.UseNpgsql(builder.Configuration.GetConnectionString("connection")));
+            builder.Services.AddDbContext<GroupConttext>(bd => bd.UseNpgsql(builder.Configuration.GetConnectionString("connection")));
             builder.Services.AddCors(options =>
             {
                 options.AddPolicy(name: MyAllowSpecificOrigins,

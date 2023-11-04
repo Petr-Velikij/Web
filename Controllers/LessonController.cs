@@ -30,6 +30,7 @@ namespace WebTutor.Controllers
             db.SaveChanges();
             return db.Lessons.ToList().Last().Id;
         }
+        [Authorize]
         [HttpGet("{id}")]
         public Lesson? Get(int id)
         {
@@ -55,11 +56,13 @@ namespace WebTutor.Controllers
             }
             return db.Lessons.ToList();
         }
+        [Authorize]
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
             Console.WriteLine("DeleteLesson");
-            Lesson lesson = db.Lessons.First(x => x.Id == id);
+            Lesson? lesson = db.Lessons.FirstOrDefault(x => x.Id == id);
+            if (lesson == null) return (IActionResult)Results.BadRequest();
             db.Lessons.Remove(lesson);
             db.SaveChanges();
             return Ok();

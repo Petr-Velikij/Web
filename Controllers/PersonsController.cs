@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNetCore.Cors;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
-using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using WebTutor.Data;
@@ -34,6 +34,8 @@ namespace WebTutor.Controllers
             }
             return Results.Unauthorized();
         }
+
+        [Authorize]
         [HttpPatch]
         public Authorization Patch(Authorization Authorization)
         {
@@ -45,12 +47,15 @@ namespace WebTutor.Controllers
             db.SaveChanges();
             return db.Authorization.First(x => x.Id == Authorization.Id);
         }
+
+        [Authorize(Roles = "Admin")]
         [HttpGet]
-        public List<Authorization> Get()
+        public List<Authorization> GetAll()
         {
             Console.WriteLine("GetAllPerson");
             return db.Authorization.ToList();
         }
+
         [HttpPut]
         public IResult Login(Authorization aut)
         {
@@ -71,16 +76,17 @@ namespace WebTutor.Controllers
             };
             return Results.Json(response);
         }
+        [Authorize]
         [HttpDelete]
         public IActionResult Delete(int id)
         {
             Console.WriteLine("DelitePerson");
-            Authorization _person = db.Authorization.First(x => x.Id == id);
-            db.Authorization.Remove(_person);
+            Authorization? person = db.Authorization.FirstOrDefault(x => x.Id == id);
+            if (person == null) return (IActionResult)Results.BadRequest();
+            db.Authorization.Remove(person);
             db.SaveChanges();
             return Ok();
         }
-
         private ClaimsIdentity? GetIdentity(Authorization aut)
         {
             Authorization? person = db.Authorization.FirstOrDefault(x => (x.Email == aut.Email && x.Password == aut.Password));
@@ -89,7 +95,7 @@ namespace WebTutor.Controllers
                 var claims = new List<Claim>
                 {
                     new Claim(ClaimsIdentity.DefaultNameClaimType, aut.Email),
-                    new Claim(ClaimsIdentity.DefaultRoleClaimType, aut.Id.ToString())
+                    new Claim(ClaimsIdentity.DefaultRoleClaimType, aut.Role)
                 };
                 var claimsIdentity = new ClaimsIdentity(claims, "Token", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
                 return claimsIdentity;
