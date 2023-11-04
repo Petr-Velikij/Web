@@ -6,23 +6,26 @@ using WebTutor.Medels;
 
 namespace WebTutor.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("api/[controller]")]
     [EnableCors("Test")]
     public class LessonController : ControllerBase
     {
+        private readonly PersonContext dbPerson;
         private readonly LessonContext db;
 
-        public LessonController(LessonContext db)
+        public LessonController(LessonContext db, PersonContext dbPerson)
         {
+            this.dbPerson = dbPerson;
             this.db = db;
         }
-
+        [Authorize]
         [HttpPost]
         public int Create(Lesson lesson)
         {
             Console.WriteLine("PostLesson");
             //db.Lessons.Add(new Lesson { DateTime = new DateTime(2023, 11, 03, 2, 9, 0, DateTimeKind.Utc), OrderId = 1, Task = "Test"});
+            lesson.OrderId = dbPerson.Authorization.First(x => x.Email == User.Identity.Name).Id;
             db.Lessons.Add(lesson);
             db.SaveChanges();
             return db.Lessons.ToList().Last().Id;
@@ -34,9 +37,11 @@ namespace WebTutor.Controllers
             Lesson? lesson = db.Lessons.FirstOrDefault(x => x.Id == id);
             return lesson;
         }
+        [Authorize]
         [HttpGet]
-        public List<Lesson> GetOrder(int idOrder)
+        public List<Lesson> GetOrder()
         {
+            int idOrder = dbPerson.Authorization.First(x => x.Email == User.Identity.Name).Id;
             Console.WriteLine("GetLessonOrder");
             if (idOrder != 0)
             {

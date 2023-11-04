@@ -1,10 +1,8 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
 using System.Text;
-using WebTutor.Controllers;
 using WebTutor.Data;
 
 namespace WebTutor
@@ -33,19 +31,12 @@ namespace WebTutor
             {
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
-                    // указывает, будет ли валидироваться издатель при валидации токена
                     ValidateIssuer = true,
-                    // строка, представляющая издателя
                     ValidIssuer = AuthOptions.ISSUER,
-                    // будет ли валидироваться потребитель токена
                     ValidateAudience = true,
-                    // установка потребителя токена
                     ValidAudience = AuthOptions.AUDIENCE,
-                    // будет ли валидироваться время существования
                     ValidateLifetime = true,
-                    // установка ключа безопасности
                     IssuerSigningKey = AuthOptions.GetSymmetricSecurityKey(),
-                    // валидация ключа безопасности
                     ValidateIssuerSigningKey = true,
                 };
             });
@@ -66,18 +57,6 @@ namespace WebTutor
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller}/{action=Index}/{id?}");
-            app.Map("/login/{username}", (string username) =>
-            {
-                var claims = new List<Claim> { new Claim(ClaimTypes.Name, username) };
-                var jwt = new JwtSecurityToken(
-                        issuer: AuthOptions.ISSUER,
-                        audience: AuthOptions.AUDIENCE,
-                claims: claims,
-                expires: DateTime.UtcNow.Add(TimeSpan.FromMinutes(2)),
-                        signingCredentials: new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256));
-
-                return new JwtSecurityTokenHandler().WriteToken(jwt);
-            });
 
             app.MapFallbackToFile("index.html");
 
