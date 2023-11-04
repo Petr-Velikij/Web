@@ -16,20 +16,20 @@ function Login() {
 	const onSubmit = async () => {
 		const urlServer = "https://25.81.29.249:7045/api/persons";
 
-		await axios
+		const GetToken = await axios
 			.put(urlServer, {
 				Email: email,
 				Password: password,
 			})
 			.then((DataSQL) => {
-				if (DataSQL.data === true) {
+				if (DataSQL.data.statusCode == null) {
+					sessionStorage.setItem("Token", DataSQL.data.value.access_token);
+
 					return navigate("/account");
 				}
-			})
-			.catch(() => {
-				console.log("Ошибка");
 			});
 	};
+
 	return (
 		<Fragment>
 			<div className="all-content">
@@ -55,7 +55,7 @@ function Login() {
 										setEmail(Event.target.value);
 										console.log(email);
 									}}
-									type="email"
+									type="text"
 									placeholder="Логин"
 								/>
 								{errors?.Email?.type === "required" && <p className="p-authentication">Поля пустое</p>}
@@ -67,7 +67,6 @@ function Login() {
 								<input
 									className="input-authentication"
 									{...register("Password", {
-										minLength: 6,
 										required: true,
 									})}
 									onChange={(Event) => {
@@ -79,9 +78,6 @@ function Login() {
 								/>
 								{errors?.Password?.type === "required" && (
 									<p className="p-authentication">Поля пустое</p>
-								)}
-								{errors?.Password?.type === "minLength" && (
-									<p className="p-authentication">Мин 6 символов</p>
 								)}
 							</div>
 

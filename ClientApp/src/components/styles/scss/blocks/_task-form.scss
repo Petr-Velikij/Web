@@ -21,6 +21,11 @@
 
       margin-top: 28px;
       padding: 24px;
+      .main-form__title {
+        font-weight: 700;
+        font-size: 24px;
+        padding: 20px 10px;
+      }
       .main-form {
         .main-form__group-button {
           display: flex;

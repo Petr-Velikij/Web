@@ -22,7 +22,7 @@ function Register() {
 				Password: password,
 			})
 			.then((DataSQL) => {
-				return console.log(DataSQL.data), navigate("/login");
+				return console.log(DataSQL.data), navigate("/account");
 			})
 			.catch(() => {
 				console.log("ошибка");
@@ -53,7 +53,7 @@ function Register() {
 										setEmail(Event.target.value);
 										console.log(email);
 									}}
-									type="email"
+									type="text"
 									placeholder="Почта"
 								/>
 								{errors?.Email?.type === "required" && <p className="p-authentication">Поля пустое</p>}

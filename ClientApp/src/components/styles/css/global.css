@@ -113,6 +113,7 @@ input {
 .header {
   background-color: white;
   position: sticky;
+  top: 0;
 }
 .header .header__content {
   display: grid;
@@ -295,6 +296,11 @@ a {
   border-radius: 26px;
   margin-top: 28px;
   padding: 24px;
+}
+.add-task__container .container__content .content__main-form .main-form__title {
+  font-weight: 700;
+  font-size: 24px;
+  padding: 20px 10px;
 }
 .add-task__container .container__content .content__main-form .main-form {
   background-color: white;

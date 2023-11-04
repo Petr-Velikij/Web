@@ -18,14 +18,15 @@ function Task() {
 		}
 	}
 
-	const urlServer = "https://25.81.29.249:7045/api/lesson?idOrder=0";
+	const urlServer = "https://25.81.29.249:7045/api/lesson";
 
-	const [taskItems, setTaskItems] = useState([{}]);
+	const [taskItems, setTaskItems] = useState([]);
 
 	const getTaskArray = async () => {
-		const Data = await axios.get(urlServer);
+		const Data = await axios.get(urlServer, {
+			headers: { Authorization: "Bearer " + sessionStorage.getItem("Token") },
+		});
 		setTaskItems(Data.data);
-		console.log(taskItems);
 	};
 	useEffect(() => {
 		getTaskArray();

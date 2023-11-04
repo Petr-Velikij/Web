@@ -15,9 +15,13 @@ function FormTask() {
 
 	const addTask = async () => {
 		await axios
-			.post(urlServer, {
-				Task: textTask,
-			})
+			.post(
+				urlServer,
+				{
+					Task: textTask,
+				},
+				{ headers: { Authorization: "Bearer " + sessionStorage.getItem("Token") } }
+			)
 			.then((DataText) => {
 				console.log(DataText.data);
 			})
@@ -31,11 +35,13 @@ function FormTask() {
 			<form onSubmit={handleSubmit(addTask)} className="container__content">
 				<div className="content__select-item"> {/* Вернуть select (взять из GIT) */}</div>
 				<div className="content__main-form">
+					{sessionStorage.getItem("Token")}
+					<div className="main-form__title">Новый урок</div>
 					<div className="main-form">
 						<div className="main-form__input-post">
 							<textarea
 								className="input-post"
-								placeholder="Напишите что-нибудь"
+								placeholder="Описание занятие"
 								value={textTask}
 								{...register("TextTask", {
 									required: true,

@@ -20,7 +20,7 @@ export function HeaderAccount() {
 			<div className="header__content -header-account">
 				<ul className="content__list-item">
 					<li className="list-item">
-						<Link to="/" className="button-list">
+						<Link to="/account" className="button-list">
 							Главная страница
 						</Link>
 					</li>
