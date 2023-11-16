@@ -7,6 +7,7 @@ using WebTutor.Medels;
 namespace WebTutor.Controllers
 {
     [ApiController]
+    [Authorize]
     [Route("api/[controller]")]
     [EnableCors("Test")]
     public class LessonController : ControllerBase
@@ -19,7 +20,6 @@ namespace WebTutor.Controllers
             this.dbPerson = dbPerson;
             this.db = db;
         }
-        [Authorize]
         [HttpPost]
         public int Create(Lesson lesson)
         {
@@ -30,7 +30,6 @@ namespace WebTutor.Controllers
             db.SaveChanges();
             return db.Lessons.ToList().Last().Id;
         }
-        [Authorize]
         [HttpGet("{id}")]
         public Lesson? Get(int id)
         {
@@ -38,7 +37,6 @@ namespace WebTutor.Controllers
             Lesson? lesson = db.Lessons.FirstOrDefault(x => x.Id == id);
             return lesson;
         }
-        [Authorize]
         [HttpGet]
         public List<Lesson> GetOrder()
         {
@@ -56,7 +54,6 @@ namespace WebTutor.Controllers
             }
             return db.Lessons.ToList();
         }
-        [Authorize]
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {

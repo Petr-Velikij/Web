@@ -23,7 +23,7 @@ namespace WebTutor
                 options.AddPolicy(name: MyAllowSpecificOrigins,
                                   policy =>
                                   {
-                                      policy.WithOrigins("https://25.75.246.82:44405")
+                                      policy.WithOrigins("https://25.75.246.82:44472")
                                       .AllowAnyHeader()
                                       .AllowAnyMethod();
                                   });
@@ -39,6 +39,7 @@ namespace WebTutor
                     ValidateLifetime = true,
                     IssuerSigningKey = AuthOptions.GetSymmetricSecurityKey(),
                     ValidateIssuerSigningKey = true,
+                    ClockSkew = TimeSpan.Zero,
                 };
             });
             builder.Services.AddAuthorization();

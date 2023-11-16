@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Security.Claims;
 using WebTutor.Data;
 using WebTutor.Medels;
@@ -21,17 +22,19 @@ namespace WebTutor.Controllers
             this.db = db;
         }
 
-        [HttpPost]
+        [HttpPost("registration")]
         public IResult Create(Authorization aut)
         {
-            Console.WriteLine("CreatrPerson");
+            
             Authorization? person = db.Authorization.FirstOrDefault(x => x.Email == aut.Email);
             if (person == null)
             {
                 db.Authorization.Add(aut);
                 db.SaveChanges();
                 Login(aut);
+                Console.WriteLine($"[{DateTime.UtcNow.ToString("HH:mm:ss")}] CreatePerson Status:200");
             }
+            Console.WriteLine($"[{DateTime.UtcNow.ToString("HH:mm:ss")}] Not create Email:{aut.Email}, Password:{aut.Password} Status:402");
             return Results.Unauthorized();
         }
 
@@ -56,17 +59,21 @@ namespace WebTutor.Controllers
             return db.Authorization.ToList();
         }
 
-        [HttpPut]
+        [HttpPost("login")]
         public IResult Login(Authorization aut)
         {
-            Console.WriteLine("Login");
             var identity = GetIdentity(aut);
-            if (identity == null) return Results.Unauthorized();
+            if (identity == null)
+            {
+                Console.WriteLine($"[{DateTime.UtcNow.ToString("HH:mm:ss")}] Login Email:{aut.Email}, Password:{aut.Password} Status:401");
+                return Results.Unauthorized();
+            }
             var jwt = new JwtSecurityToken(
                         issuer: AuthOptions.ISSUER,
                         audience: AuthOptions.AUDIENCE,
+                        //notBefore: DateTime.UtcNow,
                         claims: identity.Claims,
-                        expires: DateTime.UtcNow.Add(TimeSpan.FromMinutes(30)),
+                        expires: DateTime.UtcNow.Add(TimeSpan.FromSeconds(30)),
                         signingCredentials: new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256));
             var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
             var response = new
@@ -74,6 +81,8 @@ namespace WebTutor.Controllers
                 access_token = encodedJwt,
                 username = identity.Name
             };
+            Console.WriteLine($"[{DateTime.UtcNow.ToString("HH:mm:ss")}] Login Email:{aut.Email}, Password:{aut.Password} Status:200");
+            Console.WriteLine($"[{DateTime.UtcNow.ToString("HH:mm:ss")}] JWT:{encodedJwt}");
             return Results.Json(response);
         }
         [Authorize]
@@ -101,6 +110,13 @@ namespace WebTutor.Controllers
                 return claimsIdentity;
             }
             return null;
+        }
+        [Authorize]
+        [HttpGet("check")]
+        public IActionResult CheckToken()
+        {
+            Console.WriteLine($"[{DateTime.UtcNow.ToString("HH:mm:ss")}] CheckToken {User.Claims.First(e => e.Type == ClaimsIdentity.DefaultNameClaimType).Value}");
+            return Ok();
         }
     }
 }
