@@ -44,6 +44,15 @@ namespace WebTutor
             });
             builder.Services.AddAuthorization();
 
+            builder.Services.AddLogging(options =>
+            {
+                options.AddSimpleConsole(c =>
+                {
+                    c.TimestampFormat = "[HH:mm:ss] ";
+                    // c.UseUtcTimestamp = true; // something to consider
+                });
+            });
+
             var app = builder.Build();
 
             if (!app.Environment.IsDevelopment())

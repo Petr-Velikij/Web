@@ -278,7 +278,7 @@ Having problems with VS Code Debugging? Please see their [troubleshooting guide]
 
 You would need to have [WebStorm](https://www.jetbrains.com/webstorm/) and [JetBrains IDE Support](https://chrome.google.com/webstore/detail/jetbrains-ide-support/hmhgeddbohgjknpmjagkdomcpobmllji) Chrome extension installed.
 
-In the WebStorm menu `Run` select `Edit Configurations...`. Then click `+` and select `JavaScript Debug`. Paste `http://localhost:3000` into the URL field and save the configuration.
+In the WebStorm menu `Run` select `Edit Configurations...`. Then click `+` and select `JavaScript Console`. Paste `http://localhost:3000` into the URL field and save the configuration.
 
 >Note: the URL may be different if you've made adjustments via the [HOST or PORT environment variables](#advanced-configuration).
 

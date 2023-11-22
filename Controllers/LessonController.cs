@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using WebTutor.Data;
 using WebTutor.Medels;
 
@@ -12,47 +13,45 @@ namespace WebTutor.Controllers
     [EnableCors("Test")]
     public class LessonController : ControllerBase
     {
-        private readonly PersonContext dbPerson;
         private readonly LessonContext db;
 
-        public LessonController(LessonContext db, PersonContext dbPerson)
+        public LessonController(LessonContext db)
         {
-            this.dbPerson = dbPerson;
             this.db = db;
         }
         [HttpPost]
-        public int Create(Lesson lesson)
+        public async Task<int> Create(Lesson lesson)
         {
             Console.WriteLine("PostLesson");
-            //db.Lessons.Add(new Lesson { DateTime = new DateTime(2023, 11, 03, 2, 9, 0, DateTimeKind.Utc), OrderId = 1, Task = "Test"});
-            lesson.OrderId = dbPerson.Authorization.First(x => x.Email == User.Identity.Name).Id;
-            db.Lessons.Add(lesson);
-            db.SaveChanges();
+            lesson.OrderId = int.Parse(User.Claims.First(x => x.Type == "id").Value);
+            lesson.DatePublic = DateTime.UtcNow;
+            await db.Lessons.AddAsync(lesson);
+            await db.SaveChangesAsync();
             return db.Lessons.ToList().Last().Id;
         }
         [HttpGet("{id}")]
         public Lesson? Get(int id)
         {
-            Console.WriteLine("GetLesson");
+            Console.WriteLine($"GetLesson");
             Lesson? lesson = db.Lessons.FirstOrDefault(x => x.Id == id);
             return lesson;
         }
         [HttpGet]
-        public List<Lesson> GetOrder()
+        public async Task<List<Lesson>> GetOrder()
         {
-            int idOrder = dbPerson.Authorization.First(x => x.Email == User.Identity.Name).Id;
-            Console.WriteLine("GetLessonOrder");
+            int idOrder = int.Parse(User.Claims.First(x => x.Type == "id").Value);
+            Console.WriteLine($"GetLesson Order:{User.Identity.Name} ID:{User.Claims.First(x => x.Type == "id").Value}");
             if (idOrder != 0)
             {
                 List<Lesson> lessons = new();
-                List<Lesson> allLessons = db.Lessons.ToList();
+                List<Lesson> allLessons = await db.Lessons.ToListAsync();
                 foreach (Lesson lesson in allLessons)
                 {
                     if (lesson.OrderId == idOrder) lessons.Add(lesson);
                 }
                 return lessons;
             }
-            return db.Lessons.ToList();
+            return await db.Lessons.ToListAsync();
         }
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
