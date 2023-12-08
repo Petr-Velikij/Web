@@ -23,7 +23,9 @@ namespace WebTutor.Controllers
         public async Task<int> Create(Lesson lesson)
         {
             Console.WriteLine("PostLesson");
-            lesson.OrderId = int.Parse(User.Claims.First(x => x.Type == "id").Value);
+            string? idOrder = User?.FindFirst("id")?.Value;
+            if (idOrder == null) return 0;
+            lesson.OrderId = int.Parse(idOrder);
             lesson.DatePublic = DateTime.UtcNow;
             await db.Lessons.AddAsync(lesson);
             await db.SaveChangesAsync();
@@ -40,7 +42,7 @@ namespace WebTutor.Controllers
         public async Task<List<Lesson>> GetOrder()
         {
             int idOrder = int.Parse(User.Claims.First(x => x.Type == "id").Value);
-            Console.WriteLine($"GetLesson Order:{User.Identity.Name} ID:{User.Claims.First(x => x.Type == "id").Value}");
+            Console.WriteLine($"GetLesson Order:{User?.Identity?.Name} ID:{User?.Claims.First(x => x.Type == "id").Value}");
             if (idOrder != 0)
             {
                 List<Lesson> lessons = new();

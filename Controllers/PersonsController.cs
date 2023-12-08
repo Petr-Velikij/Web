@@ -21,20 +21,28 @@ namespace WebTutor.Controllers
         {
             this.db = db;
         }
-
+        public class Registr
+        {
+            public Authorization auth { get; set; } = new();
+            public Person person { get; set; } = new();
+        }
+        [Authorize(Roles = "Admin")]
         [HttpPost("registration")]
-        public async Task<IResult> Create(Authorization aut)
+        public async Task<IResult> Create(Registr reg)
         {
             
-            Authorization? person = await db.Authorization.FirstOrDefaultAsync(x => x.Email == aut.Email);
+            Authorization? person = await db.Authorization.FirstOrDefaultAsync(x => x.Email == reg.auth.Email);
             if (person == null)
             {
-                db.Authorization.Add(aut);
+                db.Authorization.Add(reg.auth);
                 await db.SaveChangesAsync();
-                await Login(aut);
+                reg.person.IdAut = reg.auth.Id;
+                db.Persons.Add(reg.person);
+                await db.SaveChangesAsync();
                 Console.WriteLine($"[{DateTime.UtcNow.ToString("HH:mm:ss")}] CreatePerson Status:200");
+                return Results.Ok();
             }
-            Console.WriteLine($"[{DateTime.UtcNow.ToString("HH:mm:ss")}] Not create Email:{aut.Email}, Password:{aut.Password} Status:401");
+            Console.WriteLine($"[{DateTime.UtcNow.ToString("HH:mm:ss")}] Not create Email:{reg.auth.Email}, Password:{reg.auth.Password} Status:401");
             return Results.Unauthorized();
         }
 
@@ -68,6 +76,8 @@ namespace WebTutor.Controllers
                 Console.WriteLine($"Login Email:{aut.Email}, Password:{aut.Password} Status:401");
                 return Results.Unauthorized();
             }
+            Person? DataPersom = await db.Persons.FirstOrDefaultAsync(id => id.IdAut.ToString() == identity.FindFirst("id").Value);
+            if (DataPersom == null) DataPersom = new Person {Name = "Без имени", Surname = "Без фамилии" };
             var jwt = new JwtSecurityToken(
                         issuer: AuthOptions.ISSUER,
                         audience: AuthOptions.AUDIENCE,
@@ -79,7 +89,9 @@ namespace WebTutor.Controllers
             var response = new
             {
                 access_token = encodedJwt,
-                username = identity.Name
+                name = DataPersom?.Name,
+                surname = DataPersom?.Surname,
+                role = identity?.FindFirst(ClaimsIdentity.DefaultRoleClaimType)?.Value
             };
             Console.WriteLine($"Login Email:{aut.Email}, Password:{aut.Password} Status:200");
             Console.WriteLine($"JWT:{encodedJwt}");

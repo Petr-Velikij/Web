@@ -29,7 +29,7 @@ namespace WebTutor.Controllers
 
         [Authorize]
         [HttpGet("{id}")]
-        public Group? Get(int id)
+        public Group? GetName(int id)
         {
             Console.WriteLine("GetLesson");
             Group? group = db.Groups.FirstOrDefault(x => x.Id == id);

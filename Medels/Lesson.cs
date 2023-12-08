@@ -7,8 +7,8 @@
         public DateTime DateTime { get; set; }
         public DateTime DatePublic { get; set; }
         public string Title { get; set; } = "Без темы";
-        public string Description { get; set; } = "Без описания";
-        public List<int> Groups { get; set; } = new(); 
+        public string Description { get; set; } = "";
+        public int Groups { get; set; } = 0; 
         public Type Type { get; set; }
         public string? Venue { get; set; }
     }

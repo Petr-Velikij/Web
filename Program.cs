@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
@@ -41,17 +41,23 @@ namespace WebTutor
                     ValidateIssuerSigningKey = true,
                     ClockSkew = TimeSpan.Zero,
                 };
+                options.Events = new JwtBearerEvents
+                {
+                    OnMessageReceived = context =>
+                    {
+                        var accessToken = context.Request.Query["access_token"];
+                        var path = context.HttpContext.Request.Path;
+                        if (!string.IsNullOrEmpty(accessToken) && path.StartsWithSegments("/chat"))
+                        {
+                            context.Token = accessToken;
+                        }
+                        return Task.CompletedTask;
+                    }
+                };
             });
             builder.Services.AddAuthorization();
-
-            builder.Services.AddLogging(options =>
-            {
-                options.AddSimpleConsole(c =>
-                {
-                    c.TimestampFormat = "[HH:mm:ss] ";
-                    // c.UseUtcTimestamp = true; // something to consider
-                });
-            });
+            builder.Services.AddSingleton<IUserIdProvider, CustomUserIdProvider>();
+            builder.Services.AddSignalR();
 
             var app = builder.Build();
 
@@ -65,6 +71,7 @@ namespace WebTutor
             app.UseRouting();
             app.UseCors(MyAllowSpecificOrigins);
 
+            app.MapHub<ChatHub>("/chat");
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller}/{action=Index}/{id?}");
