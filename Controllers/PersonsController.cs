@@ -15,23 +15,22 @@ namespace WebTutor.Controllers
     [EnableCors("Test")]
     public class PersonsController : ControllerBase
     {
-        private readonly PersonContext db;
+        private readonly ApplicationContext db;
 
-        public PersonsController(PersonContext db)
+        public PersonsController(ApplicationContext db)
         {
             this.db = db;
         }
-        public class Registr
+        public class FullData
         {
             public Authorization auth { get; set; } = new();
             public Person person { get; set; } = new();
         }
         [Authorize(Roles = "Admin")]
         [HttpPost("registration")]
-        public async Task<IResult> Create(Registr reg)
+        public async Task<IResult> Create(FullData reg)
         {
-            
-            Authorization? person = await db.Authorization.FirstOrDefaultAsync(x => x.Email == reg.auth.Email);
+			Authorization? person = await db.Authorization.FirstOrDefaultAsync(x => x.Email == reg.auth.Email);
             if (person == null)
             {
                 db.Authorization.Add(reg.auth);
@@ -39,33 +38,54 @@ namespace WebTutor.Controllers
                 reg.person.IdAut = reg.auth.Id;
                 db.Persons.Add(reg.person);
                 await db.SaveChangesAsync();
-                Console.WriteLine($"[{DateTime.UtcNow.ToString("HH:mm:ss")}] CreatePerson Status:200");
+                Console.WriteLine($"CreatePerson Name:{reg.person.Name} Status:200");
                 return Results.Ok();
             }
-            Console.WriteLine($"[{DateTime.UtcNow.ToString("HH:mm:ss")}] Not create Email:{reg.auth.Email}, Password:{reg.auth.Password} Status:401");
-            return Results.Unauthorized();
+            Console.WriteLine($"Not create Email:{reg.auth.Email} Status:401");
+            return Results.BadRequest();
         }
+		[Authorize(Roles = "Admin")]
+		[HttpDelete]
+		public async Task<IActionResult> Delete(int id)
+		{
+			Authorization? person = await db.Authorization.FirstOrDefaultAsync(x => x.Id == id);
+			if (person == null) return (IActionResult)Results.BadRequest();
+			db.Authorization.Remove(person);
+			await db.SaveChangesAsync();
+			Console.WriteLine($"DelitePerson {id}");
+			return Ok();
+		}
 
-        [Authorize]
-        [HttpPatch]
-        public async Task<IResult> Patch(Authorization Authorization)
+		[Authorize]
+        [HttpPatch("password")]
+        public async Task<IResult> Patch(string oldPassword, string newPassword)
         {
-            Console.WriteLine("PatchPerson");
-            Authorization? person = await db.Authorization.FirstOrDefaultAsync(x => x.Id == Authorization.Id);
-            if (person == null) return Results.BadRequest();
-            person.Email = Authorization.Email;
-            person.Password = Authorization.Password;
-            db.SaveChanges();
-            return Results.Json(db.Authorization.First(x => x.Id == Authorization.Id));
-        }
+			string? idStr = User?.FindFirst("id")?.Value;
+			if (idStr == null) Results.BadRequest();
+			int id = int.Parse(idStr);
 
-        [Authorize(Roles = "Admin")]
-        [HttpGet]
-        public async Task<List<Authorization>> GetAll()
-        {
-            Console.WriteLine("GetAllPerson");
-            return await db.Authorization.ToListAsync();
+            Authorization? auth = await db.Authorization.FirstOrDefaultAsync(x => x.Id == id);
+            if (auth == null) return Results.BadRequest();
+            if (auth.Password != oldPassword) return Results.BadRequest();
+			auth.Password = newPassword;
+			db.SaveChanges();
+            return Results.Ok();
         }
+		[Authorize]
+		[HttpPatch]
+		public async Task<IResult> Patch(Person newPerson)
+		{
+			string? idStr = User?.FindFirst("id")?.Value;
+			if (idStr == null) Results.BadRequest();
+			int id = int.Parse(idStr);
+
+			Person? person = await db.Persons.FirstOrDefaultAsync(x => x.Id == id);
+			if (person == null) return Results.BadRequest();
+			newPerson.Id = id;
+            person = newPerson;
+			db.SaveChanges();
+			return Results.Ok();
+		}
 
         [HttpPost("login")]
         public async Task<IResult> Login(Authorization aut)
@@ -81,7 +101,6 @@ namespace WebTutor.Controllers
             var jwt = new JwtSecurityToken(
                         issuer: AuthOptions.ISSUER,
                         audience: AuthOptions.AUDIENCE,
-                        //notBefore: DateTime.UtcNow,
                         claims: identity.Claims,
                         expires: DateTime.UtcNow.Add(TimeSpan.FromMinutes(30)),
                         signingCredentials: new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256));
@@ -96,17 +115,6 @@ namespace WebTutor.Controllers
             Console.WriteLine($"Login Email:{aut.Email}, Password:{aut.Password} Status:200");
             Console.WriteLine($"JWT:{encodedJwt}");
             return Results.Json(response);
-        }
-        [Authorize]
-        [HttpDelete]
-        public async Task<IActionResult> Delete(int id)
-        {
-            Console.WriteLine("DelitePerson");
-            Authorization? person = await db.Authorization.FirstOrDefaultAsync(x => x.Id == id);
-            if (person == null) return (IActionResult)Results.BadRequest();
-            db.Authorization.Remove(person);
-            await db.SaveChangesAsync();
-            return Ok();
         }
         private async Task<ClaimsIdentity?> GetIdentity(Authorization aut)
         {

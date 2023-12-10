@@ -13,29 +13,30 @@ namespace WebTutor.Controllers
     [EnableCors("Test")]
     public class LessonController : ControllerBase
     {
-        private readonly LessonContext db;
+        private readonly ApplicationContext db;
 
-        public LessonController(LessonContext db)
+        public LessonController(ApplicationContext db)
         {
             this.db = db;
         }
-        [HttpPost]
-        public async Task<int> Create(Lesson lesson)
+		[HttpPost]
+        public async Task<IResult> Create(Lesson lesson)
         {
             Console.WriteLine("PostLesson");
             string? idOrder = User?.FindFirst("id")?.Value;
-            if (idOrder == null) return 0;
+            if (idOrder == null) return Results.BadRequest();
             lesson.OrderId = int.Parse(idOrder);
-            lesson.DatePublic = DateTime.UtcNow;
-            await db.Lessons.AddAsync(lesson);
+            DateTime time = DateTime.UtcNow;
+			lesson.DatePublic = new DateTime(time.Ticks - (time.Ticks % TimeSpan.TicksPerSecond), time.Kind).ToString();
+			await db.Lessons.AddAsync(lesson);
             await db.SaveChangesAsync();
-            return db.Lessons.ToList().Last().Id;
+            return Results.Ok();
         }
         [HttpGet("{id}")]
-        public Lesson? Get(int id)
+        public async Task<Lesson?> Get(int id)
         {
             Console.WriteLine($"GetLesson");
-            Lesson? lesson = db.Lessons.FirstOrDefault(x => x.Id == id);
+            Lesson? lesson = await db.Lessons.FirstOrDefaultAsync(x => x.Id == id);
             return lesson;
         }
         [HttpGet]

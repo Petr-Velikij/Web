@@ -12,6 +12,7 @@ namespace WebTutor
         [Authorize]
         public async Task Send(string message, string to)
         {
+            if (message == "" || to == "") return;
             if (Context.UserIdentifier is string userName)
             {
                 Console.WriteLine($"From:{Context?.User?.FindFirst("id")?.Value} To:{to} Message:{message}");
@@ -38,7 +39,7 @@ namespace WebTutor
     {
         public virtual string? GetUserId(HubConnectionContext connection)
         {
-            return connection?.User?.FindFirst("id")?.Value;
+            return connection?.User?.FindFirst(ClaimsIdentity.DefaultNameClaimType)?.Value;
         }
     }
 }

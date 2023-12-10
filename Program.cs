@@ -15,9 +15,7 @@ namespace WebTutor
         {
             var builder = WebApplication.CreateBuilder(args);
             builder.Services.AddControllersWithViews();
-            builder.Services.AddDbContext<PersonContext>(bd => bd.UseNpgsql(builder.Configuration.GetConnectionString("connection")));
-            builder.Services.AddDbContext<LessonContext>(bd => bd.UseNpgsql(builder.Configuration.GetConnectionString("connection")));
-            builder.Services.AddDbContext<GroupConttext>(bd => bd.UseNpgsql(builder.Configuration.GetConnectionString("connection")));
+            builder.Services.AddDbContext<ApplicationContext>(bd => bd.UseNpgsql(builder.Configuration.GetConnectionString("connection")));
             builder.Services.AddCors(options =>
             {
                 options.AddPolicy(name: MyAllowSpecificOrigins,
@@ -86,9 +84,9 @@ namespace WebTutor
     }
     public class AuthOptions
     {
-        public const string ISSUER = "MyAuthServer"; // издатель токена
-        public const string AUDIENCE = "MyAuthClient"; // потребитель токена
-        const string KEY = "b92%[bZ/bc%74JxKH-{e";   // ключ для шифрации
+        public const string ISSUER = "MyAuthServer";
+        public const string AUDIENCE = "MyAuthClient";
+        const string KEY = "b92%[bZ/bc%74JxKH-{e";
         public static SymmetricSecurityKey GetSymmetricSecurityKey() =>
             new SymmetricSecurityKey(Encoding.UTF8.GetBytes(KEY));
     }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using WebTutor.Data;
 using WebTutor.Medels;
 
@@ -11,48 +12,48 @@ namespace WebTutor.Controllers
     [EnableCors("Test")]
     public class GroupController : ControllerBase
     {
-        private readonly GroupConttext db;
-        public GroupController(GroupConttext db)
+        private readonly ApplicationContext db;
+        public GroupController(ApplicationContext db)
         {
             this.db = db;
         }
 
         [Authorize(Roles = "Admin")]
         [HttpPost]
-        public int Create(Group group)
+        public async Task<int> Create(Group group)
         {
             Console.WriteLine("PostGroup");
-            db.Groups.Add(group);
-            db.SaveChanges();
+            await db.Groups.AddAsync(group);
+			await db.SaveChangesAsync();
             return db.Groups.ToList().Last().Id;
         }
 
         [Authorize]
         [HttpGet("{id}")]
-        public Group? GetName(int id)
+        public async Task<Group?> GetName(int id)
         {
             Console.WriteLine("GetLesson");
-            Group? group = db.Groups.FirstOrDefault(x => x.Id == id);
+            Group? group = await db.Groups.FirstOrDefaultAsync(x => x.Id == id);
             return group;
         }
 
         [Authorize]
         [HttpGet]
-        public List<Group> GetAll()
+        public async Task<List<Group>> GetAll()
         {
-            return db.Groups.ToList();
+            return await db.Groups.ToListAsync();
         }
 
         [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
+        public async Task<IResult> Delete(int id)
         {
             Console.WriteLine("DeleteGrop");
-            Group? group = db.Groups.FirstOrDefault(x => x.Id == id);
-            if (group == null) return (IActionResult)Results.BadRequest();
+            Group? group = await db.Groups.FirstOrDefaultAsync(x => x.Id == id);
+            if (group == null) return Results.BadRequest();
             db.Groups.Remove(group);
-            db.SaveChanges();
-            return Ok();
+			await db.SaveChangesAsync();
+            return Results.Ok();
         }
     }
 }
