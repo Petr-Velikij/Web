@@ -25,7 +25,7 @@ namespace WebTutor.Controllers
             Console.WriteLine("PostGroup");
             await db.Groups.AddAsync(group);
 			await db.SaveChangesAsync();
-            return db.Groups.ToList().Last().Id;
+            return group.Id;
         }
 
         [Authorize]
@@ -39,9 +39,9 @@ namespace WebTutor.Controllers
 
         [Authorize]
         [HttpGet]
-        public async Task<List<Group>> GetAll()
+        public async Task<IResult> GetAll()
         {
-            return await db.Groups.ToListAsync();
+            return Results.Ok(await db.Groups.ToListAsync());
         }
 
         [Authorize(Roles = "Admin")]
